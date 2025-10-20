@@ -1,0 +1,7 @@
+import random
+
+# Toss the coin
+result = random.choice(["Heads", "Tails"])
+
+# Show the result
+print("You got:", result)
