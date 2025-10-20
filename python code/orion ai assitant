@@ -1,0 +1,79 @@
+import speech_recognition as sr
+import pyttsx3
+import wikipedia
+import datetime
+import pywhatkit
+import pyjokes
+
+# Initialize the speech engine
+engine = pyttsx3.init()
+engine.setProperty('rate', 175)  # Speaking speed
+engine.setProperty('volume', 1.0)
+
+def talk(text):
+    print("Orion:", text)
+    engine.say(text)
+    engine.runAndWait()
+
+def take_command():
+    listener = sr.Recognizer()
+    command = ""
+    try:
+        with sr.Microphone() as source:
+            print("Listening...")
+            listener.pause_threshold = 1
+            voice = listener.listen(source)
+            command = listener.recognize_google(voice)
+            command = command.lower()
+            if 'orion' in command:
+                command = command.replace('orion', '').strip()
+            print("You said:", command)
+    except:
+        talk("Sorry, I didn’t catch that.")
+    return command
+
+def run_orion():
+    command = take_command()
+
+    if 'hello' in command:
+        talk("Hello sir, starting engine.")
+
+    elif 'play' in command:
+        song = command.replace('play', '').strip()
+        talk("Playing " + song)
+        pywhatkit.playonyt(song)
+
+    elif 'time' in command:
+        time = datetime.datetime.now().strftime('%I:%M %p')
+        talk('Current time is ' + time)
+
+    elif 'who is' in command or 'what is' in command or 'tell me about' in command:
+        topic = command.replace('who is', '').replace('what is', '').replace('tell me about', '').strip()
+        talk("Searching about " + topic)
+        try:
+            info = wikipedia.summary(topic, 2)
+            talk(info)
+        except:
+            talk("Sorry, I couldn't find anything about " + topic)
+    elif 'how is the moon'in command:
+        talk('obviously not good as you.')
+    elif 'joke' in command:
+        joke = pyjokes.get_joke()
+        talk(joke)
+
+    elif 'date' in command:
+        talk('Sorry, I have a headache today.')
+
+    elif 'are you single' in command:
+        talk('I am in a relationship with WiFi.')
+
+    elif 'stop' in command or 'exit' in command or 'bye' in command or 'orion engine off'in command:
+        talk("turning engine off,goodbye.")
+        exit()
+
+    else:
+        talk("Sorry, I didn't hear that. Please ask again.")
+
+# Run Orion continuously
+while True:
+    run_orion()
