@@ -1,0 +1,19 @@
+import time
+import sys
+
+lines = [
+    "🎵 Happy Birthday to You 🎵",
+    "🎵 Happy Birthday to You 🎵",
+    "🎵 Happy Birthday Dear Friend 🎵",
+    "🎵 Happy Birthday to You 🎵"
+]
+
+for line in lines:
+    for char in line:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        time.sleep(0.09)  # typing effect speed
+    print()
+    time.sleep(0.7)  # delay between lines
+
+print("\n🎂✨ Have a wonderful day! ✨🎂")
